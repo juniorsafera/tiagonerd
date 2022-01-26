@@ -14,7 +14,7 @@ class OpcaoMenu extends StatelessWidget {
     }
     // ignore: prefer_const_constructors
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 20),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       child: Padding(
           padding: const EdgeInsets.all(10),
           // ignore: unnecessary_const, sized_box_for_whitespace

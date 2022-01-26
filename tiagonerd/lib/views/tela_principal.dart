@@ -12,48 +12,113 @@ class TelaPrincipal extends StatelessWidget {
       body: Container(
         width: larguraTela,
         height: alturaTela,
+         
         // ignore: prefer_const_constructors
         decoration: BoxDecoration(
             image: const DecorationImage(
                 image: AssetImage("assets/bg1.png"), fit: BoxFit.cover)),
 
         // ignore: prefer_const_literals_to_create_immutables
-        child: Column(
-          children: [
-            // ignore: prefer_const_constructors
-            Expanded(
-              child: Image.asset("assets/logo-icon.png"),
-            ),
+        child: Container(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                const SizedBox(
+                  height: 140,
+                ),
+                // ignore: prefer_const_constructors
+                Image.asset("assets/logo-icon.png"),
+          
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text(
+                  'Oque você procura?',
+                  style: TextStyle(fontSize: 38),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+          
+                const OpcaoMenu(
+                  opcao: "Treinamentos",
+                ),
+                const OpcaoMenu(
+                  opcao: "Cursos EAD",
+                ),
+                const OpcaoMenu(
+                  opcao: "Serviços",
+                ),
+          
+               
+                
 
-            const Expanded(
-              child: Text(
-                'Oque você procura?',
-                style: TextStyle(fontSize: 40),
-              ),
-            ),
+                Container(
+                  
+                  width: larguraTela,
+                   height: 250,
+          
+                  // ignore: prefer_const_constructors
+                  decoration: BoxDecoration(
+                    image: const DecorationImage(
+                        image: AssetImage("assets/wave.png"), fit: BoxFit.fitHeight),
+                  ),
+                  child: Row(
+                    
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text("Dúvidas?"),
+                        Container(
+                          width: 80,
+                          height: 80,
+                          // ignore: prefer_const_constructors
+                          decoration: BoxDecoration(
+                        image: const DecorationImage(
+                            image: AssetImage("assets/whatsapp-icon.png"), fit: BoxFit.fitHeight),
+                  ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Text("YouTube"),
+                        Container(
+                          width: 80,
+                          height: 80,
+                          // ignore: prefer_const_constructors
+                          decoration: BoxDecoration(
+                        image: const DecorationImage(
+                            image: AssetImage("assets/youtube-icon.png"), fit: BoxFit.fitHeight),
+                  ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Text("Instagram"),
+                        Container(
+                          width: 80,
+                          height: 80,
+                          // ignore: prefer_const_constructors
+                          decoration: BoxDecoration(
+                        image: const DecorationImage(
+                            image: AssetImage("assets/instagram-icon.png"), fit: BoxFit.fitHeight),
+                  ),
+                        ),
+                      ],
+                    ),
 
-            Expanded(
-              child: Column(
-                children: const [
-                  OpcaoMenu(
-                    opcao: "Treinamentos",
-                  ),
-                  OpcaoMenu(
-                    opcao: "Cursos EAD",
-                  ),
-                  OpcaoMenu(
-                    opcao: "Serviços",
-                  ),
-                ],
-              ),
-            ),
 
-            Expanded(
-              child: Container(
-                color: Colors.red,
-              ),
-            )
-          ],
+                  ],),
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );
