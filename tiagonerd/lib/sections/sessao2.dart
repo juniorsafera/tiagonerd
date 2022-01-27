@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 class Sessao2 extends StatelessWidget {
   const Sessao2({ Key? key }) : super(key: key);
@@ -35,6 +37,7 @@ class Sessao2 extends StatelessWidget {
                // LOGO
                // ignore: avoid_unnecessary_containers
                Container(
+                 // ignore: prefer_const_constructors
                  padding: EdgeInsets.symmetric(vertical: 20),
                 child: Image.asset("assets/logo.png"),
                ),
@@ -78,6 +81,7 @@ class Sessao2 extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
+                          // ignore: sized_box_for_whitespace
                           Container(
                             
                             width: 300,

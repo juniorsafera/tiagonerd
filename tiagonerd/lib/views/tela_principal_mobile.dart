@@ -15,6 +15,7 @@ class TelaPrincipalMobile extends StatelessWidget {
           children: [
             // ignore: prefer_const_constructors
             Sessao1(),
+            // ignore: prefer_const_constructors
             Sessao2(),
           ],
         ),

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:tiagonerd/components/opcao_menu.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Sessao1 extends StatelessWidget {
   const Sessao1({Key? key}) : super(key: key);
@@ -10,8 +11,28 @@ class Sessao1 extends StatelessWidget {
   Widget build(BuildContext context) {
     double larguraTela = MediaQuery.of(context).size.width;
     double alturaTela = MediaQuery.of(context).size.height;
+
+    void _whatsappLink() async {
+      if (!await launch(
+          "https://api.whatsapp.com/send?phone=5586994952546&text="))
+        // ignore: curly_braces_in_flow_control_structures
+        throw 'Could not launch "https://www.instagram.com/tiagonerd_/"';
+    }
+
+    void _youtubeLink() async {
+      if (!await launch(
+          "https://www.youtube.com/channel/UC0N4izsgk0uKnBRtw0tTlOQ"))
+        // ignore: curly_braces_in_flow_control_structures
+        throw 'Could not launch "https://www.instagram.com/tiagonerd_/"';
+    }
+
+    void _instagramLink() async {
+      if (!await launch("https://www.instagram.com/tiagonerd_/"))
+        // ignore: curly_braces_in_flow_control_structures
+        throw 'Could not launch "https://www.instagram.com/tiagonerd_/"';
+    }
+
     return Container(
-       
       constraints: BoxConstraints(
         maxHeight: 900,
         minHeight: 700,
@@ -22,7 +43,7 @@ class Sessao1 extends StatelessWidget {
       decoration: BoxDecoration(
           image: const DecorationImage(
               image: AssetImage("assets/bg1.png"), fit: BoxFit.cover)),
-       
+
       child: Container(
         child: Column(
           // ignore: prefer_const_literals_to_create_immutables
@@ -59,82 +80,120 @@ class Sessao1 extends StatelessWidget {
               width: larguraTela,
               height: 190,
               child: Column(
-
                 children: [
                   SizedBox(
                     height: 60,
                   ),
                   Row(
-                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-
                       // WHATSAPP
-                      Column(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(vertical: 3),
-                            child: Text("Dúvidas?", style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold
+                      GestureDetector(
+                        onTap: _whatsappLink,
+                        child: Container(
+                          child: Column(
+                            children: [
+                              Container(
+                                  padding: EdgeInsets.symmetric(vertical: 3),
+                                  child: Text(
+                                    "Dúvidas?",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                              Card(
+                                elevation: 6,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                                child: Container(
+                                  child: Container(
+                                    width: 60,
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                      image: const DecorationImage(
+                                          image: AssetImage(
+                                              "assets/Whatsapp-icon.png"),
+                                          fit: BoxFit.fitHeight),
+                                    ),
+                                  ),
+                                ),
                               ),
-                              )
-                              ),
-                          Container(
-                            width: 60,
-                            height: 60,
-                             
-                            decoration: BoxDecoration(
-                              image: const DecorationImage(
-                                  image: AssetImage("assets/whatsapp-icon.png"),
-                                  fit: BoxFit.fitHeight),
-                            ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
 
                       // YOUTUBE
-                      Column(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(vertical: 3),
-                            child: Text("YouTube",style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold
-                              ),)),
-                          Container(
-                            width: 60,
-                            height: 60,
-                             
-                            decoration: BoxDecoration(
-                              image: const DecorationImage(
-                                  image: AssetImage("assets/youtube-icon.png"),
-                                  fit: BoxFit.fitHeight),
-                            ),
+                      GestureDetector(
+                        onTap: _youtubeLink,
+                        child: Container(
+                          child: Column(
+                            children: [
+                              Container(
+                                  padding: EdgeInsets.symmetric(vertical: 3),
+                                  child: Text(
+                                    "YouTube",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                              Card(
+                                elevation: 6,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                                child: Container(
+                                  child: Container(
+                                    width: 60,
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                      image: const DecorationImage(
+                                          image: AssetImage(
+                                              "assets/youtube-icon.png"),
+                                          fit: BoxFit.fitHeight),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
 
                       // INSTAGRAM
-                      Column(
-                        children: [
-                          Container(
-                             padding: EdgeInsets.symmetric(vertical: 3),
-                            child: Text("Instagram", style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold
-                              ),)),
-
-                          Container(             
-                            width: 60,
-                            height: 60,
-                            
-                            decoration: BoxDecoration(
-                              image: const DecorationImage(
-                                  image: AssetImage("assets/instagram-icon.png"),
-                                  fit: BoxFit.fitHeight),
-                            ),
+                      GestureDetector(
+                        onTap: _instagramLink,
+                        child: Container(
+                          child: Column(
+                            children: [
+                              Container(
+                                  padding: EdgeInsets.symmetric(vertical: 3),
+                                  child: Text(
+                                    "Instagram",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                              Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                                elevation: 6,
+                                child: Container(
+                                  width: 60,
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                    image: const DecorationImage(
+                                        image: AssetImage(
+                                            "assets/instagram-icon.png"),
+                                        fit: BoxFit.fitHeight),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     ],
                   ),

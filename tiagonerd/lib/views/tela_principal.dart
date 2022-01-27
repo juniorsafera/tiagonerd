@@ -18,7 +18,7 @@ class TelaPrincipal extends StatelessWidget {
             image: const DecorationImage(
                 image: AssetImage("assets/bg1.png"), fit: BoxFit.cover)),
 
-        // ignore: prefer_const_literals_to_create_immutables
+        // ignore: prefer_const_literals_to_create_immutables, avoid_unnecessary_containers
         child: Container(
           child: SingleChildScrollView(
             child: Column(
@@ -72,6 +72,7 @@ class TelaPrincipal extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
+                        // ignore: prefer_const_constructors
                         Text("Dúvidas?"),
                         Container(
                           width: 80,
@@ -86,6 +87,7 @@ class TelaPrincipal extends StatelessWidget {
                     ),
                     Column(
                       children: [
+                        // ignore: prefer_const_constructors
                         Text("YouTube"),
                         Container(
                           width: 80,
@@ -100,6 +102,7 @@ class TelaPrincipal extends StatelessWidget {
                     ),
                     Column(
                       children: [
+                        // ignore: prefer_const_constructors
                         Text("Instagram"),
                         Container(
                           width: 80,
