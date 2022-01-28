@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tiagonerd/views/tela_principal_mobile.dart';
+import 'package:tiagonerd/views/home.dart';
 
-void main() {
+ void main() {
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
-    home:  TelaPrincipalMobile(),
+    home:  Home(),
   ));
 }
  
