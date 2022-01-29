@@ -1,6 +1,9 @@
-// ignore_for_file: deprecated_member_use, prefer_const_constructors
+// ignore_for_file: deprecated_member_use, prefer_const_constructors, avoid_print, unnecessary_brace_in_string_interps
 
 import 'package:flutter/material.dart';
+import 'package:tiagonerd/others/email.dart';
+import 'package:sendgrid_mailer/sendgrid_mailer.dart';
+ 
 
 class FormTreinamentos extends StatefulWidget {
   const FormTreinamentos({Key? key}) : super(key: key);
@@ -10,13 +13,19 @@ class FormTreinamentos extends StatefulWidget {
 }
 
 final TextEditingController cNome = TextEditingController();
+final TextEditingController cPhone = TextEditingController();
 final TextEditingController cEmail = TextEditingController();
 final TextEditingController cCidadeEstado = TextEditingController();
 final TextEditingController cLoja = TextEditingController();
 final TextEditingController cNivelConhecimento = TextEditingController();
+final TextEditingController cMensagem = TextEditingController();
 
+// ignore: prefer_const_declarations
 final String emailApp = "tiagonerdapp@gmail.com";
+// ignore: prefer_const_declarations
 final String senhaApp = "107840Tw";
+// ignore: prefer_const_declarations
+final String emailDestinatario = cEmail.text;
 
 String _opcao1 = "Nenhum";
 
@@ -38,23 +47,55 @@ class _FormTreinamentosState extends State<FormTreinamentos> {
       )
       .toList();
 
-      _enviarDados(
-        String nome, 
-        String email, 
-        String phone, 
-        String cidade, 
-        String loja, 
-        String nivel, 
-        String mensagem){
+  
 
-        
+      String _text = '';
+   var email = classEmail( emailApp, senhaApp);
+ 
+  void _enviarEmail() async {
+    bool result = await email.sendMensage(
+      "Nome: ${cNome.text}  \n"
+      "Telefone: ${cPhone.text} \n"
+      "Email: ${cEmail.text} \n"
+      "Cidade/Estado: ${cCidadeEstado.text} \n"
+      "Loja/Assistência: ${cLoja.text} \n"
+      "Nível Conhecimento: ${_opcao1} \n"
+      "Mensagem: ${cMensagem.text} \n"
+      , 
+      cEmail.text, 
+      'Busca por Treinamento Presencial');
 
-      }
+    setState(() {
+      _text = result ? 'Enviado.' : 'Não enviado.';
+    });
+      print(_text);
+    
+  }
+  
+
+/*
+  void _enviarEmail() async{
+    final mailer = Mailer('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');
+  final toAddress = Address('promojrsantos@gmail.com');
+  final fromAddress = Address(emailApp);
+  final content = Content('text/plain', 'Hello World!');
+  final subject = 'Hello Subject!';
+  final personalization = Personalization([toAddress]);
+
+  final email =
+      Email([personalization], fromAddress, subject, content: [content]);
+  mailer.send(email).then((result) {
+    // ...
+  });
+  print("enviarEmail!");
+  }
+  */
 
   @override
   Widget build(BuildContext context) {
     // ignore: avoid_unnecessary_containers
     return SingleChildScrollView(
+      // ignore: avoid_unnecessary_containers
       child: Container(
         child: Card(
           child: Container(
@@ -62,11 +103,16 @@ class _FormTreinamentosState extends State<FormTreinamentos> {
             padding: EdgeInsets.all(10),
             child: Column(
               children: [
-                Text("Tem interesse em realizar um treinamento presencial?",style: TextStyle(
-                  fontSize: 18,
-                  
+                Text(
+                  "Treinamento Presencial",
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+                Text("preencha os dados e receba datas e locais disponíveis*",
+                style: TextStyle(
+                  fontSize: 12
                 ),),
-                Text("preencha os dados e receba datas e locais disponíveis*"),
                 TextField(
                   controller: cNome,
                   //onSubmitted: (_) => _submitForm(),
@@ -82,7 +128,7 @@ class _FormTreinamentosState extends State<FormTreinamentos> {
                       icon: Icon(Icons.email), labelText: 'Email*'),
                 ),
                 TextField(
-                  controller: cEmail,
+                  controller: cPhone,
                   //onSubmitted: (_) => _submitForm(),
                   keyboardType: TextInputType.phone,
                   decoration: const InputDecoration(
@@ -148,19 +194,23 @@ class _FormTreinamentosState extends State<FormTreinamentos> {
                               fontSize: 16,
                             ),
                           )),
+                      // ignore: avoid_unnecessary_containers
                       Container(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           // ignore: prefer_const_literals_to_create_immutables
                           children: [
                             Expanded(
-                              child: TextField(
-                                maxLines: 3,
-                                decoration: InputDecoration.collapsed(
-                                  hintText: " ",
-                                  border: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 3, color: Colors.blue),
+                              child: Container(
+                                padding: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                    border:
+                                        Border.all(color: Colors.grey)),
+                                child: TextField(
+                                  maxLines: 3,
+                                  decoration: InputDecoration.collapsed(
+                                    hintText: " ",
+                                    
                                   ),
                                 ),
                               ),
@@ -179,10 +229,10 @@ class _FormTreinamentosState extends State<FormTreinamentos> {
                     children: [
                       RaisedButton(
                         textColor: Colors.white,
-                        color:   Colors.orange,
+                        color: Colors.orange,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
-                        onPressed: () {},
+                        onPressed: _enviarEmail,
                         child: const Text(
                           'Enviar',
                           style: TextStyle(
