@@ -45,6 +45,7 @@ class _Sessao1State extends State<Sessao1> {
     
     _abrirFormularioTreinamentos() {
       showModalBottomSheet(
+        isScrollControlled: true,
           context: context,
           builder: (_) {
             return FormTreinamentos();

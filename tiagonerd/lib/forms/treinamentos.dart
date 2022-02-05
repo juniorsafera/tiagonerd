@@ -28,7 +28,6 @@ class _FormTreinamentosState extends State<FormTreinamentos> {
     'Iniciante',
     'Básico',
     'Avançado',
-    
   ];
 
   // ignore: prefer_final_fields
@@ -45,20 +44,19 @@ class _FormTreinamentosState extends State<FormTreinamentos> {
     String nome,
     String email,
     String telefone,
-    String cidadeEstado,   
-    String? loja,   
+    String cidadeEstado,
+    String? loja,
     String nivelConhecimento,
     String? mensagem,
   ) {
-    dados = "*Procura Por Treinamentos Presenciais* \n"
+    dados = "*Treinamentos Presenciais* \n"
         "*Nome:* ${nome} \n"
         "*Email:* ${email} \n"
         "*Telefone:* ${telefone} \n"
         "*Cidade/Estado:* ${cidadeEstado} \n"
         "*Loja/Assistência:* ${loja} \n"
         "*Nível Conhecimento:* ${nivelConhecimento} \n"
-        "*Mensagem:* ${mensagem} \n"
-         ;
+        "*Mensagem:* ${mensagem} \n";
 
     String texto = Uri.encodeComponent(dados);
 
@@ -73,50 +71,115 @@ class _FormTreinamentosState extends State<FormTreinamentos> {
       throw 'Could not enviar! ';
   }
 
- void   _validarCampos(){
-
-    if(cNome.text.isEmpty){
-      print('digite um nome!');
-    } else
-    if(cEmail.text.isEmpty){
-      print('digite um email!');
-    } else
-    if(cPhone.text.isEmpty){
-      print('digite um telefone!');
-    } else
-    if(cCidadeEstado.text.isEmpty){
-      print('digite a cidade onde mora!');
-    } else 
-    if(_opcaoNivelConhecimento == "--Selecione--"){
-      print('digite seu nível de conhecimento!');
-    } else{
-          _enviarDados(
-                            cNome.text,
-                           cEmail.text,
-                           cPhone.text,
-                            cCidadeEstado.text,
-                            cLoja.text,
-                            _opcaoNivelConhecimento,
-                            cMensagem.text, 
-                          );
+  void _validarCampos() {
+    if (cNome.text.isEmpty) {
+      showDialog<void>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Atenção'),
+          content: const Text('Informe seu nome!'),
+          actions: <Widget>[
+            FlatButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      );
+    } else if (cEmail.text.isEmpty) {
+      showDialog<void>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Atenção'),
+          content: const Text('Informe seu email!'),
+          actions: <Widget>[
+            FlatButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      );
+    } else if (cPhone.text.isEmpty) {
+      showDialog<void>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Atenção'),
+          content: const Text('Informe seu telefone!'),
+          actions: <Widget>[
+            FlatButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      );
+    } else if (cCidadeEstado.text.isEmpty) {
+     showDialog<void>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Atenção'),
+          content: const Text('Informe sua Cidade e Estado!'),
+          actions: <Widget>[
+            FlatButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      );
+    } else if (_opcaoNivelConhecimento == "--Selecione--") {
+     showDialog<void>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Atenção'),
+          content: const Text('Informe seu nível de conhecimento!'),
+          actions: <Widget>[
+            FlatButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      );
+    } else {
+      _enviarDados(
+        cNome.text,
+        cEmail.text,
+        cPhone.text,
+        cCidadeEstado.text,
+        cLoja.text,
+        _opcaoNivelConhecimento,
+        cMensagem.text,
+      );
     }
-     
   }
 
   @override
   Widget build(BuildContext context) {
     // ignore: avoid_unnecessary_containers
     return SingleChildScrollView(
-      // ignore: avoid_unnecessary_containers
+      // ignore: avoid_unnecessary_containers, sized_box_for_whitespace
       child: Card(
         child: Padding(
-          
           padding: EdgeInsets.only(
             top: 10,
             left: 10,
             right: 10,
-            bottom: 10 + MediaQuery.of(context).viewInsets.bottom , // tamanho teclado
+            bottom: 10 +
+                MediaQuery.of(context).viewInsets.bottom, // tamanho teclado
           ),
+          // ignore: sized_box_for_whitespace
           child: Column(
             children: [
               Text(
@@ -130,7 +193,6 @@ class _FormTreinamentosState extends State<FormTreinamentos> {
                 style: TextStyle(fontSize: 12),
               ),
               TextField(
-                
                 controller: cNome,
                 //onSubmitted: (_) => _submitForm(),
                 keyboardType: TextInputType.text,
