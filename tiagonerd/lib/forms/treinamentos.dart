@@ -1,9 +1,7 @@
 // ignore_for_file: deprecated_member_use, prefer_const_constructors, avoid_print, unnecessary_brace_in_string_interps
 
 import 'package:flutter/material.dart';
-import 'package:tiagonerd/others/email.dart';
-import 'package:sendgrid_mailer/sendgrid_mailer.dart';
- 
+import 'package:url_launcher/url_launcher.dart';
 
 class FormTreinamentos extends StatefulWidget {
   const FormTreinamentos({Key? key}) : super(key: key);
@@ -20,21 +18,17 @@ final TextEditingController cLoja = TextEditingController();
 final TextEditingController cNivelConhecimento = TextEditingController();
 final TextEditingController cMensagem = TextEditingController();
 
-// ignore: prefer_const_declarations
-final String emailApp = "tiagonerdapp@gmail.com";
-// ignore: prefer_const_declarations
-final String senhaApp = "107840Tw";
-// ignore: prefer_const_declarations
-final String emailDestinatario = cEmail.text;
-
-String _opcao1 = "Nenhum";
+String _opcaoNivelConhecimento = "--Selecione--";
+String dados = "";
 
 class _FormTreinamentosState extends State<FormTreinamentos> {
   static const menuNivel = <String>[
+    '--Selecione--',
     'Nenhum',
     'Iniciante',
     'Básico',
     'Avançado',
+    
   ];
 
   // ignore: prefer_final_fields
@@ -47,204 +41,224 @@ class _FormTreinamentosState extends State<FormTreinamentos> {
       )
       .toList();
 
-  
+  void _enviarDados(
+    String nome,
+    String email,
+    String telefone,
+    String cidadeEstado,   
+    String? loja,   
+    String nivelConhecimento,
+    String? mensagem,
+  ) {
+    dados = "*Procura Por Treinamentos Presenciais* \n"
+        "*Nome:* ${nome} \n"
+        "*Email:* ${email} \n"
+        "*Telefone:* ${telefone} \n"
+        "*Cidade/Estado:* ${cidadeEstado} \n"
+        "*Loja/Assistência:* ${loja} \n"
+        "*Nível Conhecimento:* ${nivelConhecimento} \n"
+        "*Mensagem:* ${mensagem} \n"
+         ;
 
-      String _text = '';
-   var email = classEmail( emailApp, senhaApp);
- 
-  void _enviarEmail() async {
-    bool result = await email.sendMensage(
-      "Nome: ${cNome.text}  \n"
-      "Telefone: ${cPhone.text} \n"
-      "Email: ${cEmail.text} \n"
-      "Cidade/Estado: ${cCidadeEstado.text} \n"
-      "Loja/Assistência: ${cLoja.text} \n"
-      "Nível Conhecimento: ${_opcao1} \n"
-      "Mensagem: ${cMensagem.text} \n"
-      , 
-      cEmail.text, 
-      'Busca por Treinamento Presencial');
+    String texto = Uri.encodeComponent(dados);
 
-    setState(() {
-      _text = result ? 'Enviado.' : 'Não enviado.';
-    });
-      print(_text);
-    
+    _enviar(texto);
+
+    print(texto);
   }
-  
 
-/*
-  void _enviarEmail() async{
-    final mailer = Mailer('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');
-  final toAddress = Address('promojrsantos@gmail.com');
-  final fromAddress = Address(emailApp);
-  final content = Content('text/plain', 'Hello World!');
-  final subject = 'Hello Subject!';
-  final personalization = Personalization([toAddress]);
-
-  final email =
-      Email([personalization], fromAddress, subject, content: [content]);
-  mailer.send(email).then((result) {
-    // ...
-  });
-  print("enviarEmail!");
+  void _enviar(String dados) async {
+    if (!await launch("https://wa.me/5586994952546?text=${dados}"))
+      // ignore: curly_braces_in_flow_control_structures
+      throw 'Could not enviar! ';
   }
-  */
+
+ void   _validarCampos(){
+
+    if(cNome.text.isEmpty){
+      print('digite um nome!');
+    } else
+    if(cEmail.text.isEmpty){
+      print('digite um email!');
+    } else
+    if(cPhone.text.isEmpty){
+      print('digite um telefone!');
+    } else
+    if(cCidadeEstado.text.isEmpty){
+      print('digite a cidade onde mora!');
+    } else 
+    if(_opcaoNivelConhecimento == "--Selecione--"){
+      print('digite seu nível de conhecimento!');
+    } else{
+          _enviarDados(
+                            cNome.text,
+                           cEmail.text,
+                           cPhone.text,
+                            cCidadeEstado.text,
+                            cLoja.text,
+                            _opcaoNivelConhecimento,
+                            cMensagem.text, 
+                          );
+    }
+     
+  }
 
   @override
   Widget build(BuildContext context) {
     // ignore: avoid_unnecessary_containers
     return SingleChildScrollView(
       // ignore: avoid_unnecessary_containers
-      child: Container(
-        child: Card(
-          child: Container(
-            margin: EdgeInsets.all(10),
-            padding: EdgeInsets.all(10),
-            child: Column(
-              children: [
-                Text(
-                  "Treinamento Presencial",
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-                Text("preencha os dados e receba datas e locais disponíveis*",
+      child: Card(
+        child: Padding(
+          
+          padding: EdgeInsets.only(
+            top: 10,
+            left: 10,
+            right: 10,
+            bottom: 10 + MediaQuery.of(context).viewInsets.bottom , // tamanho teclado
+          ),
+          child: Column(
+            children: [
+              Text(
+                "Treinamento Presencial",
                 style: TextStyle(
-                  fontSize: 12
-                ),),
-                TextField(
-                  controller: cNome,
-                  //onSubmitted: (_) => _submitForm(),
-                  keyboardType: TextInputType.text,
-                  decoration: const InputDecoration(
-                      icon: Icon(Icons.person), labelText: 'Nome completo*'),
+                  fontSize: 18,
                 ),
-                TextField(
-                  controller: cEmail,
-                  //onSubmitted: (_) => _submitForm(),
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: const InputDecoration(
-                      icon: Icon(Icons.email), labelText: 'Email*'),
+              ),
+              Text(
+                "preencha os dados e receba datas e locais disponíveis*",
+                style: TextStyle(fontSize: 12),
+              ),
+              TextField(
+                
+                controller: cNome,
+                //onSubmitted: (_) => _submitForm(),
+                keyboardType: TextInputType.text,
+                decoration: const InputDecoration(
+                    icon: Icon(Icons.person), labelText: 'Nome completo*'),
+              ),
+              TextField(
+                controller: cEmail,
+                //onSubmitted: (_) => _submitForm(),
+                keyboardType: TextInputType.emailAddress,
+                decoration: const InputDecoration(
+                    icon: Icon(Icons.email), labelText: 'Email*'),
+              ),
+              TextField(
+                controller: cPhone,
+                //onSubmitted: (_) => _submitForm(),
+                keyboardType: TextInputType.phone,
+                decoration: const InputDecoration(
+                    icon: Icon(Icons.phone), labelText: 'Telefone + DDD*'),
+              ),
+              TextField(
+                controller: cCidadeEstado,
+                //onSubmitted: (_) => _submitForm(),
+                keyboardType: TextInputType.text,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.location_city),
+                  labelText: 'Cidade/Estado*',
                 ),
-                TextField(
-                  controller: cPhone,
-                  //onSubmitted: (_) => _submitForm(),
-                  keyboardType: TextInputType.phone,
-                  decoration: const InputDecoration(
-                      icon: Icon(Icons.phone), labelText: 'Telefone + DDD*'),
+              ),
+              TextField(
+                controller: cLoja,
+                //onSubmitted: (_) => _submitForm(),
+                keyboardType: TextInputType.text,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.home_work_outlined),
+                  labelText: 'Loja/Assistência',
                 ),
-                TextField(
-                  controller: cCidadeEstado,
-                  //onSubmitted: (_) => _submitForm(),
-                  keyboardType: TextInputType.text,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.location_city),
-                    labelText: 'Cidade/Estado*',
-                  ),
-                ),
-                TextField(
-                  controller: cLoja,
-                  //onSubmitted: (_) => _submitForm(),
-                  keyboardType: TextInputType.text,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.home_work_outlined),
-                    labelText: 'Loja/Assistência',
-                  ),
-                ),
-                // ignore: avoid_unnecessary_containers
-                Container(
-                  child: Row(
-                    children: [
-                      Container(
-                          padding: EdgeInsets.only(right: 8),
-                          child: const Text(
-                            "Nível de Conhecimento:*",
-                            style: TextStyle(fontSize: 16),
-                          )),
-                      // ignore: avoid_unnecessary_containers
-                      Expanded(
-                        child: DropdownButton<String>(
-                          value: _opcao1,
-                          hint: const Text("Selecione"),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              _opcao1 = newValue!;
-                            });
-                          },
-                          // ignore: unnecessary_this
-                          items: this._menuNivel,
-                        ),
+              ),
+              // ignore: avoid_unnecessary_containers
+              Container(
+                child: Row(
+                  children: [
+                    Container(
+                        padding: EdgeInsets.only(right: 8),
+                        child: const Text(
+                          "Nível de Conhecimento:*",
+                          style: TextStyle(fontSize: 16),
+                        )),
+                    // ignore: avoid_unnecessary_containers
+                    Expanded(
+                      child: DropdownButton<String>(
+                        value: _opcaoNivelConhecimento,
+                        hint: const Text("Selecione"),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            _opcaoNivelConhecimento = newValue!;
+                          });
+                        },
+                        // ignore: unnecessary_this
+                        items: this._menuNivel,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
+              ),
 
-                // ignore: avoid_unnecessary_containers
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    // ignore: prefer_const_literals_to_create_immutables
-                    children: [
-                      Container(
-                          padding: EdgeInsets.symmetric(vertical: 5),
-                          child: Text(
-                            "Mensagem:",
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          )),
-                      // ignore: avoid_unnecessary_containers
-                      Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          // ignore: prefer_const_literals_to_create_immutables
-                          children: [
-                            Expanded(
-                              child: Container(
-                                padding: EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                    border:
-                                        Border.all(color: Colors.grey)),
-                                child: TextField(
-                                  maxLines: 3,
-                                  decoration: InputDecoration.collapsed(
-                                    hintText: " ",
-                                    
-                                  ),
+              // ignore: avoid_unnecessary_containers
+              Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  // ignore: prefer_const_literals_to_create_immutables
+                  children: [
+                    Container(
+                        padding: EdgeInsets.symmetric(vertical: 5),
+                        child: Text(
+                          "Mensagem:",
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        )),
+                    // ignore: avoid_unnecessary_containers
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        // ignore: prefer_const_literals_to_create_immutables
+                        children: [
+                          Expanded(
+                            child: Container(
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey)),
+                              child: TextField(
+                                maxLines: 3,
+                                decoration: InputDecoration.collapsed(
+                                  hintText: " ",
                                 ),
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      RaisedButton(
-                        textColor: Colors.white,
-                        color: Colors.orange,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        onPressed: _enviarEmail,
-                        child: const Text(
-                          'Enviar',
-                          style: TextStyle(
-                            fontSize: 18,
                           ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    RaisedButton(
+                      textColor: Colors.white,
+                      color: Colors.orange,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      onPressed: () => _validarCampos(),
+                      child: const Text(
+                        'Enviar',
+                        style: TextStyle(
+                          fontSize: 18,
                         ),
                       ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+                    ),
+                  ],
+                ),
+              )
+            ],
           ),
         ),
       ),

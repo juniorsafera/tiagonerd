@@ -87,12 +87,18 @@ class _Sessao1State extends State<Sessao1> {
             ),
 
             // MENU OPÇÕES
-            GestureDetector(
+            InkWell(
               onTap: _abrirFormularioTreinamentos,
-              child: OpcaoMenu(opcao: "Treinamentos")
+              child: OpcaoMenu(opcao: "Treinamentos"),
               ),
-            OpcaoMenu(opcao: "Cursos EAD"),
-            OpcaoMenu(opcao: "Serviços"),
+            InkWell(
+              onTap: (){},
+              child: OpcaoMenu(opcao: "Cursos EAD"),
+              ),
+            InkWell(
+              onTap: (){},
+              child: OpcaoMenu(opcao: "Serviços"),
+            ),
             // WAVE COM BOTÕES
             Expanded(child: Container()),
 
